@@ -4,7 +4,8 @@ services:
   # TODO: telegraf for monitoring System
 
   postgresql:
-    image: postgres
+    # Alpine versions fail with segmentation fault on raspberry pi 4
+    image: postgres:12.6
     environment:
       POSTGRES_PASSWORD: postgres
     logging:
@@ -16,7 +17,7 @@ services:
       - "5432:5432"
     volumes:
       # - type: bind
-      #   source: $HOME/docker/config/postgresql/initdb
+      #   source: /home/pi/docker/config/postgresql/initdb
       #   target: /docker-entrypoint-initdb.d/
       - type: volume
         source: postgresqldata
@@ -26,7 +27,7 @@ services:
       - rbpi4dockernet
 
   redis:
-    image: redis
+    image: redis:6.0.12-alpine
     logging:
       driver: "json-file"
       options:
@@ -36,7 +37,7 @@ services:
       - "6379:6379"
     volumes:
       - type: bind
-        source: $HOME/docker/config/redis/redis.conf
+        source: /home/pi/docker/config/redis/redis.conf
         target: /usr/local/etc/redis/redis.conf
       - type: volume
         source: redisdata
@@ -45,7 +46,7 @@ services:
       - rbpi4dockernet
 
   mosquitto:
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:1.6.14
     logging:
       driver: "json-file"
       options:
@@ -53,9 +54,10 @@ services:
         max-file: "1" 
     ports:
       - "1883:1883"
+      - "9001:9001"
     volumes:
       - type: bind
-        source: $HOME/docker/config/mosquitto/mosquitto.conf
+        source: /home/pi/docker/config/mosquitto/mosquitto.conf
         target: /mosquitto/config/mosquitto.conf
       - type: volume
         source: mosquittodata
@@ -64,7 +66,7 @@ services:
       - rbpi4dockernet
 
   nodered:
-    image: nodered/node-red
+    image: nodered/node-red:1.3.1-12-minimal
     logging:
       driver: "json-file"
       options:
@@ -77,13 +79,13 @@ services:
         source: nodereddata
         target: /data
       # - type: bind
-      #   source: $HOME/docker/config/node-red
+      #   source: /home/pi/docker/config/node-red
       #   target: /config
     networks:
       - rbpi4dockernet
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:7.5.3
     environment:
       GF_INSTALL_PLUGINS: redis-datasource
     logging:
