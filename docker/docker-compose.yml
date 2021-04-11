@@ -79,8 +79,11 @@ services:
         source: nodereddata
         target: /data
       # - type: bind
-      #   source: /home/pi/docker/config/node-red
-      #   target: /config
+      #   source: /home/pi/docker/config/node-red/flows.json
+      #   target: /data/flows.json
+      - type: bind
+        source: /home/pi/docker/config/node-red/settings.js
+        target: /data/settings.js
     networks:
       - rbpi4dockernet
 
