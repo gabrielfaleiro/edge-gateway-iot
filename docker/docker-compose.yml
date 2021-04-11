@@ -1,0 +1,120 @@
+version: "3.7"
+
+services:
+  # TODO: telegraf for monitoring System
+
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1" 
+    ports:
+      - "5432:5432"
+    volumes:
+      # - type: bind
+      #   source: $HOME/docker/config/postgresql/initdb
+      #   target: /docker-entrypoint-initdb.d/
+      - type: volume
+        source: postgresqldata
+        target: /var/lib/postgresql/data
+        # Configuration: /var/lib/postgresql/data/postgresql.conf
+    networks:
+      - rbpi4dockernet
+
+  redis:
+    image: redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    ports:
+      - "6379:6379"
+    volumes:
+      - type: bind
+        source: $HOME/docker/config/redis/redis.conf
+        target: /usr/local/etc/redis/redis.conf
+      - type: volume
+        source: redisdata
+        target: /data
+    networks:
+      - rbpi4dockernet
+
+  mosquitto:
+    image: eclipse-mosquitto
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1" 
+    ports:
+      - "1883:1883"
+    volumes:
+      - type: bind
+        source: $HOME/docker/config/mosquitto/mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
+      - type: volume
+        source: mosquittodata
+        target: /var/lib/mosquitto/
+    networks:
+      - rbpi4dockernet
+
+  nodered:
+    image: nodered/node-red
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    ports:
+      - "1880:1880"
+    volumes:
+      - type: volume
+        source: nodereddata
+        target: /data
+      # - type: bind
+      #   source: $HOME/docker/config/node-red
+      #   target: /config
+    networks:
+      - rbpi4dockernet
+
+  grafana:
+    image: grafana/grafana
+    environment:
+      GF_INSTALL_PLUGINS: redis-datasource
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: volume
+        source: grafanadata
+        target: /var/lib/grafana
+      - type: volume
+        source: grafanaplugins
+        target: /var/lib/grafana/plugins
+      # - type: bind
+      #   source: ./config/grafana/grafana.ini
+      #   target: /etc/grafana/grafana.ini
+    networks:
+      - rbpi4dockernet
+
+# Allocated in /var/lib/docker/volumes/...
+volumes:
+  redisdata:
+  mosquittodata:
+  nodereddata:
+  grafanadata:
+  grafanaplugins:
+  postgresqldata:
+
+networks:
+  rbpi4dockernet:
+    driver: overlay
