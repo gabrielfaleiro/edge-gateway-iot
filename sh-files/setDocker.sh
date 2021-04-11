@@ -1,1 +1,3 @@
-sudo curl -sSL https://get.docker.com | sh
+#!/bin/bash
+
+curl -sSL https://get.docker.com | sh

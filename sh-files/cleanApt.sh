@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Sync date
 timedatectl set-ntp true
