@@ -5,7 +5,7 @@ services:
 
   postgresql:
     # Alpine versions fail with segmentation fault on raspberry pi 4
-    image: postgres:12.6
+    image: postgres:14.0-alpine3.14
     environment:
       POSTGRES_PASSWORD: postgres
     logging:
@@ -17,17 +17,17 @@ services:
       - "5432:5432"
     volumes:
       # - type: bind
-      #   source: /home/pi/docker/config/postgresql/initdb
+      #   source: $DOCKER_CONFIG_DIR/config/postgresql/initdb
       #   target: /docker-entrypoint-initdb.d/
       - type: volume
         source: postgresqldata
         target: /var/lib/postgresql/data
         # Configuration: /var/lib/postgresql/data/postgresql.conf
     networks:
-      - rbpi4dockernet
+      - home_automation_net
 
   redis:
-    image: redis:6.0.12-alpine
+    image: redis:6.2.5-alpine
     logging:
       driver: "json-file"
       options:
@@ -37,16 +37,16 @@ services:
       - "6379:6379"
     volumes:
       - type: bind
-        source: /home/pi/docker/config/redis/redis.conf
+        source: $DOCKER_CONFIG_DIR/config/redis/redis.conf
         target: /usr/local/etc/redis/redis.conf
       - type: volume
         source: redisdata
         target: /data
     networks:
-      - rbpi4dockernet
+      - home_automation_net
 
   mosquitto:
-    image: eclipse-mosquitto:1.6.14
+    image: eclipse-mosquitto:2.0.12
     logging:
       driver: "json-file"
       options:
@@ -57,16 +57,16 @@ services:
       - "9001:9001"
     volumes:
       - type: bind
-        source: /home/pi/docker/config/mosquitto/mosquitto.conf
+        source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
         target: /mosquitto/config/mosquitto.conf
       - type: volume
         source: mosquittodata
         target: /var/lib/mosquitto/
     networks:
-      - rbpi4dockernet
+      - home_automation_net
 
   nodered:
-    image: nodered/node-red:1.3.1-12-minimal
+    image: nodered/node-red:2.0.6-14
     logging:
       driver: "json-file"
       options:
@@ -79,16 +79,16 @@ services:
         source: nodereddata
         target: /data
       # - type: bind
-      #   source: /home/pi/docker/config/node-red/flows.json
+      #   source: $DOCKER_CONFIG_DIR/config/node-red/flows.json
       #   target: /data/flows.json
       - type: bind
-        source: /home/pi/docker/config/node-red/settings.js
+        source: $DOCKER_CONFIG_DIR/config/node-red/settings.js
         target: /data/settings.js
     networks:
-      - rbpi4dockernet
+      - home_automation_net
 
   grafana:
-    image: grafana/grafana:7.5.3
+    image: grafana/grafana:8.1.5
     environment:
       GF_INSTALL_PLUGINS: redis-datasource
     logging:
@@ -109,7 +109,7 @@ services:
       #   source: ./config/grafana/grafana.ini
       #   target: /etc/grafana/grafana.ini
     networks:
-      - rbpi4dockernet
+      - home_automation_net
 
 # Allocated in /var/lib/docker/volumes/...
 volumes:
@@ -121,5 +121,5 @@ volumes:
   postgresqldata:
 
 networks:
-  rbpi4dockernet:
+  home_automation_net:
     driver: overlay
