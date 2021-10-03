@@ -1,3 +1,4 @@
 #!/bin/bash
 
-curl -sSL https://get.docker.com | sh
+apt install -y docker.io
+systemctl enable --now docker
