@@ -67,7 +67,7 @@ services:
         target: /mosquitto/config/aclfile
       - type: volume
         source: mosquittodata
-        target: /var/lib/mosquitto/
+        target: /mosquitto/data
     networks:
       home_automation_net:
         aliases:
