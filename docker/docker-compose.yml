@@ -45,28 +45,8 @@ services:
 #    networks:
 #      - home_automation_net
 
-#  mosquitto:
-#    image: eclipse-mosquitto:2.0.12
-#    logging:
-#      driver: "json-file"
-#      options:
-#        max-size: "10m"
-#        max-file: "1" 
-#    ports:
-#      - "1883:1883"
-#      - "9001:9001"
-#    volumes:
-#      - type: bind
-#        source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
-#        target: /mosquitto/config/mosquitto.conf
-#      - type: volume
-#        source: mosquittodata
-#        target: /var/lib/mosquitto/
-#    networks:
-#      - home_automation_net
-
-  mqtt-broker:
-    image: emqx/emqx:4.3.9
+  mosquitto:
+    image: eclipse-mosquitto:2.0.13
     logging:
       driver: "json-file"
       options:
@@ -74,22 +54,52 @@ services:
         max-file: "1" 
     ports:
       - "1883:1883"
-      - "8883:8883"
       - "9001:9001"
-      - "18083:18083"
-      - "11883:11883"
     volumes:
+      - type: bind
+        source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
       - type: volume
-        source: emqxdata
-        target: /opt/emqx/data
-      - type: volume
-        source: emqxetc
-        target: /opt/emqx/etc
-      - type: volume
-        source: emqxlog
-        target: /opt/emqx/log
+        source: mosquittodata
+        target: /var/lib/mosquitto/
     networks:
-      - home_automation_net
+      home_automation_net:
+        aliases:
+        - mqttbroker      
+
+#  emqx1:
+#    image: emqx/emqx:4.3.9
+#    environment:
+#      - "EMQX_NAME=emqx"
+#      - "EMQX_HOST=node1.emqx.io"
+#      - "EMQX_CLUSTER__DISCOVERY=static"
+#      - "EMQX_CLUSTER__STATIC__SEEDS=emqx@node1.emqx.io"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        max-file: "1" 
+#    ports:
+#      - "1883:1883"
+#      - "8883:8883"
+#      - "9001:9001"
+#      - "18083:18083"
+#      - "11883:11883"
+#    volumes:
+#      - type: volume
+#        source: emqxdata
+#        target: /opt/emqx/data
+#      - type: volume
+#        source: emqxetc
+#        target: /opt/emqx/etc
+#      - type: volume
+#        source: emqxlog
+#        target: /opt/emqx/log
+#    networks:
+#      home_automation_net:
+#        aliases:
+#        - node1.emqx.io
+#        - mqtt-broker
 
   nodered:
     image: nodered/node-red:2.0.6-14
@@ -141,11 +151,11 @@ services:
 volumes:
 #  redisdata:
 
-#  mosquittodata:
+  mosquittodata:
     
-  emqxdata:
-  emqxetc:
-  emqxlog:
+#  emqxdata:
+#  emqxetc:
+#  emqxlog:
 
   nodereddata:
 
