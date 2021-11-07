@@ -12,5 +12,5 @@ topic read +/+/global/#
 
 user homeautomation 
 topic readwrite +/+/global/# 
-topic readwrite +/+/nodes/command/#
+topic readwrite +/+/node/+/command/#
 topic read +/+/node/+/data/#
