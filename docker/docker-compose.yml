@@ -59,6 +59,12 @@ services:
       - type: bind
         source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
         target: /mosquitto/config/mosquitto.conf
+      - type: bind
+        source: $DOCKER_CONFIG_DIR/config/mosquitto/passwdfile
+        target: /mosquitto/config/passwdfile
+      - type: bind
+        source: $DOCKER_CONFIG_DIR/config/mosquitto/aclfile
+        target: /mosquitto/config/aclfile
       - type: volume
         source: mosquittodata
         target: /var/lib/mosquitto/

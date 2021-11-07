@@ -1,0 +1,18 @@
+
+# anonymous clients
+topic deny #
+
+user admin
+topic readwrite #
+
+user nodes
+topic readwrite +/+/node/%c/data/#
+topic read +/+/node/+/data/#
+topic read +/+/node/+/command/#
+topic read +/+/global/#
+
+user homeautomation
+topic readwrite +/+/global/#
+topic readwrite nodes/command/#
+topic read +/+/node/+/data/#
+

@@ -1,0 +1,15 @@
+# mqtt-topics
+
+<application-name>/<application-id>/<group>/<element-name>/<message-type>/<other-ids>/...
+
+<group>
+- global
+- node
+
+<element-name>
+- might be the client-id or an identifier
+- not present if <group> is "global"
+
+<message-type>
+- data
+- command
