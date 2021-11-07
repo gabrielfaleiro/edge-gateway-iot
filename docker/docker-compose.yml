@@ -5,7 +5,7 @@ services:
 
   postgresql:
     # Alpine versions fail with segmentation fault on raspberry pi 4
-    image: postgres:14.0-alpine3.14
+    image: postgres:14.0
     environment:
       POSTGRES_PASSWORD: postgres
     logging:
@@ -26,47 +26,47 @@ services:
     networks:
       - home_automation_net
 
-  redis:
-    image: redis:6.2.5-alpine
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "1"
-    ports:
-      - "6379:6379"
-    volumes:
-      - type: bind
-        source: $DOCKER_CONFIG_DIR/config/redis/redis.conf
-        target: /usr/local/etc/redis/redis.conf
-      - type: volume
-        source: redisdata
-        target: /data
-    networks:
-      - home_automation_net
+#  redis:
+#    image: redis:6.2.6
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        max-file: "1"
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - type: bind
+#        source: $DOCKER_CONFIG_DIR/config/redis/redis.conf
+#        target: /usr/local/etc/redis/redis.conf
+#      - type: volume
+#        source: redisdata
+#        target: /data
+#    networks:
+#      - home_automation_net
 
-  # mosquitto:
-  #   image: eclipse-mosquitto:2.0.12
-  #   logging:
-  #     driver: "json-file"
-  #     options:
-  #       max-size: "10m"
-  #       max-file: "1" 
-  #   ports:
-  #     - "1883:1883"
-  #     - "9001:9001"
-  #   volumes:
-  #     - type: bind
-  #       source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
-  #       target: /mosquitto/config/mosquitto.conf
-  #     - type: volume
-  #       source: mosquittodata
-  #       target: /var/lib/mosquitto/
-  #   networks:
-  #     - home_automation_net
+#  mosquitto:
+#    image: eclipse-mosquitto:2.0.12
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        max-file: "1" 
+#    ports:
+#      - "1883:1883"
+#      - "9001:9001"
+#    volumes:
+#      - type: bind
+#        source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
+#        target: /mosquitto/config/mosquitto.conf
+#      - type: volume
+#        source: mosquittodata
+#        target: /var/lib/mosquitto/
+#    networks:
+#      - home_automation_net
 
   mqtt-broker:
-    image: emqx/emqx-edge:4.3.8-alpine-$ARCH
+    image: emqx/emqx:4.3.9
     logging:
       driver: "json-file"
       options:
@@ -139,9 +139,9 @@ services:
 
 # Allocated in /var/lib/docker/volumes/...
 volumes:
-  redisdata:
+#  redisdata:
 
-  # mosquittodata:
+#  mosquittodata:
     
   emqxdata:
   emqxetc:
