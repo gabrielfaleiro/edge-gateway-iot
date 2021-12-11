@@ -71,7 +71,26 @@ services:
     networks:
       home_automation_net:
         aliases:
-        - mqttbroker      
+        - mqttbroker
+
+  mosquitto-dev:
+    image: eclipse-mosquitto:2.0.13
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1" 
+    ports:
+      - "1884:1883"
+      - "9002:9001"
+    volumes:
+      - type: bind
+        source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
+    networks:
+      home_automation_net:
+        aliases:
+        - mqttbroker-dev
 
 #  emqx1:
 #    image: emqx/emqx:4.3.9
