@@ -128,6 +128,8 @@ services:
 
   nodered:
     image: nodered/node-red:2.0.6-14
+    environment:
+      CREDENTIAL_SECRET: nodered
     logging:
       driver: "json-file"
       options:
