@@ -85,7 +85,7 @@ services:
       - "9002:9001"
     volumes:
       - type: bind
-        source: $DOCKER_CONFIG_DIR/config/mosquitto/mosquitto.conf
+        source: $DOCKER_CONFIG_DIR/config/mosquitto-dev/mosquitto.conf
         target: /mosquitto/config/mosquitto.conf
     networks:
       home_automation_net:
