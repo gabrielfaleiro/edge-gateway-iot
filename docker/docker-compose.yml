@@ -3,10 +3,33 @@ version: "3.7"
 services:
   # TODO: telegraf for monitoring System
 
+
+  # Not valid for ARM based computers
+#  mysql:
+#    image: mysql:8.0.27
+#    environment:
+#    #  POSTGRES_USER: postgres
+#      MYSQL_ROOT_PASSWORD: admin
+#    #  POSTGRES_DB: postgres
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        max-file: "1"
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - type: volume
+#        source: mysqldata
+#        target: /var/lib/mysql
+#        # Configuration: /etc/mysql/conf.d/*.cnf
+#    networks:
+#      - home_automation_net
+
+  # Grafana integration bug: https://grafana.com/docs/grafana/latest/installation/requirements/#supported-databases
   postgresql:
     # Alpine versions fail with segmentation fault on raspberry pi 4
-    # Grafana can only connect with postgres versions 12 or lower
-    image: postgres:12.9
+    image: postgres:13.5
     # All environment variables are required for initdb scripts
     environment:
       POSTGRES_USER: postgres
@@ -154,8 +177,9 @@ services:
     networks:
       - home_automation_net
 
+  # REF: https://grafana.com/docs/grafana/latest/installation/docker/
   grafana:
-    image: grafana/grafana:8.1.5
+    image: grafana/grafana:8.3.3
     environment:
       GF_INSTALL_PLUGINS: redis-datasource
     logging:
@@ -172,9 +196,9 @@ services:
       - type: volume
         source: grafanaplugins
         target: /var/lib/grafana/plugins
-      # - type: bind
-      #   source: ./config/grafana/grafana.ini
-      #   target: /etc/grafana/grafana.ini
+#      - type: bind
+#        source: ./config/grafana/grafana.ini
+#        target: /etc/grafana/grafana.ini
     networks:
       - home_automation_net
 
@@ -194,6 +218,8 @@ volumes:
   grafanaplugins:
 
   postgresqldata:
+
+#  mysqldata:
 
 networks:
   home_automation_net:

@@ -5,4 +5,4 @@ export DOCKER_CONFIG_DIR=$PWD
 # export ARCH=arm64v8
 
 docker swarm init
-docker stack deploy -c docker-compose.yml --resolve-image "always" homeautomation
+docker stack deploy -c docker-compose.yml --resolve-image "always" homeautomation --prune
