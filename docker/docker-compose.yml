@@ -5,9 +5,13 @@ services:
 
   postgresql:
     # Alpine versions fail with segmentation fault on raspberry pi 4
-    image: postgres:14.0
+    # Grafana can only connect with postgres versions 12 or lower
+    image: postgres:12.9
+    # All environment variables are required for initdb scripts
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     logging:
       driver: "json-file"
       options:
@@ -16,9 +20,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      # - type: bind
-      #   source: $DOCKER_CONFIG_DIR/config/postgresql/initdb
-      #   target: /docker-entrypoint-initdb.d/
+      - type: bind
+        source: $DOCKER_CONFIG_DIR/config/postgresql/initdb
+        target: /docker-entrypoint-initdb.d/
       - type: volume
         source: postgresqldata
         target: /var/lib/postgresql/data
