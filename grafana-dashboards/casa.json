@@ -273,7 +273,7 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "right"
+          "placement": "bottom"
         },
         "tooltip": {
           "mode": "single"
@@ -588,7 +588,7 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "right"
+          "placement": "bottom"
         },
         "tooltip": {
           "mode": "single"
@@ -682,6 +682,6 @@
   "timezone": "",
   "title": "Casita Peluchitos",
   "uid": "4SB5WHWRz",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }
