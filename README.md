@@ -2,8 +2,8 @@
 
 ## Design decisions
 - Server running on a Raspberry Pi 4
-- For [ISS-001] -> docker is not going to be used.
-- Try K3S: https://k3s.io/
+- For [ISS-001] and [ISS-002] -> docker should not be used. Maybe exploring a different docker version is an option.
+- Explore K3S: https://k3s.io/
 
 ## Security Configurations
 
@@ -56,3 +56,5 @@
     docker-init:
       Version:          0.19.0
       GitCommit:        de40ad0
+
+- [ISS-002] Docker on Raspian. PostgreSQL date time is not initiallised correctly which affects to initdb scripts execution.
