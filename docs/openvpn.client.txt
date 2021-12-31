@@ -1,0 +1,1 @@
+Reference: https://urbanjack.wordpress.com/2013/12/02/howto-setup-raspberrypi-with-openvpn-client/
