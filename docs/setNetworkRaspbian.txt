@@ -56,6 +56,7 @@
 	static ip_address=192.168.0.80/24
 	static routers=192.168.0.1
 	static domain_name_servers=192.168.0.1 8.8.8.8
+	metric 400
 
 	# It is possible to fall back to a static IP if DHCP fails:
 	# define static profile
@@ -67,3 +68,6 @@
 	# fallback to static profile on eth0
 	interface eth0
 	fallback static_eth0
+
+# WiFi configuration
+https://www.raspberrypi.com/documentation/computers/configuration.html#getting-wireless-lan-network-details
