@@ -1,15 +1,15 @@
 # edge-gateway-iot
 
-## Design decisions
-- Server running on a Raspberry Pi 4
-- No issues with docker when installed using get-docker.sh (see sh-files/setDocker.sh)
-- Explore K3S: https://k3s.io/
+This repository explore different edge computing solutions
 
-## Security Configurations
+## ub-core-22-based
 
-- docker/docker-compose.yml
-  - POSTGRES_PASSWORD: change it manually after initdb configurations
-    - ALTER USER user_name WITH PASSWORD 'new_password';
-  - CREDENTIAL_SECRET
+This approach wants to create a micro cloud enabling horizontal scalability using the following technologies:
+- Ubuntu Core 22
+- MicroK8s for microservices
+- LXD for linux containers and VMs (qemu)
 
-## Issues
+## raspbian-based
+
+This section works with Raspbian, the official Raspberry Pi OS, on top of which docker is installed to handle microservices.
+
