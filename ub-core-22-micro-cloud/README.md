@@ -1,4 +1,4 @@
-# ub-core-22-based
+# ub-core-22-micro-cloud
 
 ## Ubuntu Core 22
 
@@ -21,6 +21,8 @@ According to the forum, Ubuntu Core should perform minimal SD card write operati
 Install over UC22 using snaps
 - https://snapcraft.io/lxd
 
+Clustering: https://linuxcontainers.org/lxd/docs/master/clustering/
+
 ## Install MicroK8s
 
 Install over UC22 using snaps
@@ -28,7 +30,8 @@ Install over UC22 using snaps
 
 - Classic confinement is not permitted in Ubuntu Core
 - Use the following method: https://ubuntu.com/engage/embedded-kubernetes-for-secure-iot-edge-webinar?_ga=2.181016551.1799718390.1669971427-1575883042.1669971427
-  - 
+  - Uses the risk "edge". It is not stable yet to run on ubuntu core.
+- Strict mode: https://microk8s.io/docs/setting-snap-channel
 
 ## Install Ceph for distributed storage
 
